@@ -17,7 +17,7 @@ public class ChatController {
     @Autowired
     private IChatService chatService;
 
-    @MessageMapping("/chat")
+    @MessageMapping("/support")
     @SendTo("/topic/support")
     public OutputMessage send(InputMessage inputMessage) throws Exception{
         return chatService.handleMessage(inputMessage);
