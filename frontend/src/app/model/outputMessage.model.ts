@@ -1,4 +1,4 @@
-export interface OutputMessage {
-  from: string;
-  text: string;
+export class OutputMessage {
+  from!: string;
+  text!: string;
 }
