@@ -1,5 +1,5 @@
 export class OutputMessage {
   from!: string;
   to!: string;
-  text!: string;
+  text!: string | null;
 }
