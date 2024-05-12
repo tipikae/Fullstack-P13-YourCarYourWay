@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Client, StompSubscription } from '@stomp/stompjs';
 import { InputMessage } from '../../model/inputMessage.model';
 import { OutputMessage } from '../../model/outputMessage.model';
-import { formatDate } from '@angular/common';
+import { ConversationItem } from '../../model/conversationItem.model';
 
 @Component({
   selector: 'app-chat',
@@ -21,6 +21,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       }
     )}
   });
+  conversation: ConversationItem[] = [];
 
   constructor() {}
 
@@ -33,20 +34,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   showMessageInput(message: InputMessage): void {
-    this.addMessageToConversation(message.from, message.text, message.time);
-  }
-
-  showMessageOutput(message: OutputMessage): void {
-    let time = formatDate(Date.now(), 'HH:mm', 'fr-FR');
-    this.addMessageToConversation(message.from, message.text, time);
-  }
-
-  addMessageToConversation(from: string, text: string, time: string): void {
-    var response = document.getElementById('response');
-    var p = document.createElement('p');
-    p.style.wordWrap = 'break-word';
-    p.appendChild(document.createTextNode(from + " (" + time + ")" + ": " + text));
-    response?.appendChild(p);
+    let conversationItem = new ConversationItem();
+    conversationItem.message = message.from + ': ' + message.text;
+    this.conversation.push(conversationItem);
   }
 
   send(): void {
@@ -60,8 +50,6 @@ export class ChatComponent implements OnInit, OnDestroy {
       destination: "/app/support",
       body: JSON.stringify(outputMessage)
     });
-
-    this.showMessageOutput(outputMessage);
   }
 }
 
