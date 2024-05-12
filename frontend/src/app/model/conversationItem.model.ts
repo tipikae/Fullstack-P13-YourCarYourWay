@@ -1,3 +1,3 @@
 export class ConversationItem {
-    message!: String;
+    message!: string;
 }

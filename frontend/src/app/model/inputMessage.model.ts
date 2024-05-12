@@ -1,6 +1,6 @@
 export interface InputMessage {
   from: string;
-  to: String;
+  to: string;
   text: string;
   time: string;
 }
