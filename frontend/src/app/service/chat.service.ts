@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Client, StompSubscription } from '@stomp/stompjs';
 import { OutputMessage } from '../model/outputMessage.model';
 
+/**
+ * Chat service.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -13,6 +16,11 @@ export class ChatService {
   });
   private userId!: string;
 
+  /**
+   * Connect to the websocket.
+   * @param callback Function from caller component to retrieve the message.
+   * @returns User id
+   */
   connect(callback: (text: any) => void): string {
     this.userId = this.getRandomId();
 
@@ -32,11 +40,18 @@ export class ChatService {
     return this.userId;
   }
 
+  /**
+   * Disconnect form the websocket.
+   */
   disconnect(): void {
     this.stompClient.unsubscribe(this.subscription.id);
     this.stompClient.deactivate();
   }
 
+  /**
+   * Send a message to the queue.
+   * @param outputMessage Message to send.
+   */
   send(outputMessage: OutputMessage): void {
     this.stompClient.publish({
       destination: "/app/support",
@@ -44,6 +59,10 @@ export class ChatService {
     });
   }
 
+  /**
+   * Generate a user id.
+   * @returns User id
+   */
   private getRandomId(): string {
     let min = 1;
     let max = 10000;
