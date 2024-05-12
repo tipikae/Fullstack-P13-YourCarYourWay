@@ -9,5 +9,6 @@ import lombok.Data;
 public class InputMessage {
 
     private String from;
+    private String to;
     private String text;
 }

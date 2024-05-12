@@ -21,6 +21,6 @@ public class ChatService implements IChatService {
      */
     public OutputMessage handleMessage(InputMessage inputMessage) {
         String time = new SimpleDateFormat("HH:mm").format(new Date());
-        return new OutputMessage(inputMessage.getFrom(), inputMessage.getText(), time);
+        return new OutputMessage(inputMessage.getFrom(), inputMessage.getTo(), inputMessage.getText(), time);
     }
 }
