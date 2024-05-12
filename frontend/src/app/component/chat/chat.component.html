@@ -1,13 +1,13 @@
 <div>
   <div id="conversation">
-    <input type="text" id="text" placeholder="Write a message..."/>
-    <button id="sendMessage" (click)="send();">Send</button>
-    <table id="conversation">
+    <table>
       <tbody>
         <tr *ngFor="let item of conversation">
           <td>{{ item.message }}</td>
         </tr>
       </tbody>
     </table>
+    <input type="text" id="text" placeholder="Write a message..."/>
+    <button id="sendMessage" (click)="send();">Send</button>
   </div>
 </div>
