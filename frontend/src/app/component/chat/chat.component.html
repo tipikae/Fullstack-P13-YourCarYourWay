@@ -7,7 +7,9 @@
         </tr>
       </tbody>
     </table>
-    <input type="text" id="text" placeholder="Write a message..."/>
-    <button id="sendMessage" (click)="send();">Send</button>
+    <form [formGroup]="chatForm" (ngSubmit)="send()">
+      <input formControlName="text" type="text" placeholder="Write a message..."/>
+      <button type="submit">Send</button>
+    </form>
   </div>
 </div>

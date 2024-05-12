@@ -3,6 +3,7 @@ import { Client, StompSubscription } from '@stomp/stompjs';
 import { InputMessage } from '../../model/inputMessage.model';
 import { OutputMessage } from '../../model/outputMessage.model';
 import { ConversationItem } from '../../model/conversationItem.model';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-chat',
@@ -16,14 +17,20 @@ export class ChatComponent implements OnInit, OnDestroy {
     brokerURL: 'ws://localhost:8080/chat',
     onConnect: (frame) => {
       console.log('Connected: ' + frame);
-      this.subscription = this.stompClient.subscribe('/topic/support', (message) => {
-        this.showMessageInput(JSON.parse(message.body));
-      }
+      this.subscription = this.stompClient.subscribe(
+        '/topic/support', 
+        (message) => {
+          this.showMessageInput(JSON.parse(message.body));
+        }, 
+        { id: this.getRandomId() }
     )}
   });
   conversation: ConversationItem[] = [];
+  chatForm = this.formBuilder.group({
+    text: ['', [Validators.required, Validators.minLength(1)]]
+  });
 
-  constructor() {}
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.stompClient.activate();
@@ -40,16 +47,22 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   send(): void {
-    console.log('id: ' + this.subscription.id);
     let outputMessage = new OutputMessage();
-    let message = document.getElementById('text') as HTMLInputElement;
     outputMessage.from = this.subscription.id;
-    outputMessage.text = message.value;
+    outputMessage.text = this.chatForm.controls.text.value;
 
     this.stompClient.publish({
       destination: "/app/support",
       body: JSON.stringify(outputMessage)
     });
+
+    this.chatForm.controls.text.reset();
+  }
+
+  private getRandomId(): string {
+    let min = 1;
+    let max = 10000;
+    return 'user' + (Math.floor(Math.random() * (max - min + 1)) + min);
   }
 }
 
