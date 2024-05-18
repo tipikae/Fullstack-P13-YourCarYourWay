@@ -1,0 +1,15 @@
+<div>
+  <div id="conversation">
+    <table>
+      <tbody>
+        <tr *ngFor="let item of conversation">
+          <td>{{ item.message }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <form [formGroup]="chatForm" (ngSubmit)="send()">
+      <input formControlName="text" type="text" placeholder="Write a message..."/>
+      <button type="submit">Send</button>
+    </form>
+  </div>
+</div>

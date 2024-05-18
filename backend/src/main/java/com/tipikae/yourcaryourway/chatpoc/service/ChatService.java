@@ -4,9 +4,6 @@ import com.tipikae.yourcaryourway.chatpoc.model.InputMessage;
 import com.tipikae.yourcaryourway.chatpoc.model.OutputMessage;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Chat service.
  */
@@ -20,7 +17,6 @@ public class ChatService implements IChatService {
      * @return OutputMessage
      */
     public OutputMessage handleMessage(InputMessage inputMessage) {
-        String time = new SimpleDateFormat("HH:mm").format(new Date());
-        return new OutputMessage(inputMessage.getFrom(), inputMessage.getText(), time);
+        return new OutputMessage(inputMessage.getFrom(), inputMessage.getText());
     }
 }
